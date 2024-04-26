@@ -1,0 +1,4 @@
+service vendor.memtrack-hal /vendor/bin/hw/android.hardware.memtrack-service-nvidia
+    class hal
+    user system
+    group system

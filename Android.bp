@@ -31,9 +31,42 @@ cc_binary {
         "android.hardware.memtrack@1.0",
     ],
 
+    cflags: [
+        "-DMEMTRACK_HIDL"
+    ],
+
     name: "android.hardware.memtrack@1.0-service-nvidia",
     init_rc: ["android.hardware.memtrack@1.0-service-nvidia.rc"],
     vintf_fragments: ["android.hardware.memtrack@1.0-service-tegra.xml"],
+    relative_install_path: "hw",
+    vendor: true,
+
+}
+
+cc_binary {
+
+    srcs: [
+        "Memtrack-aidl.cpp",
+        "service-aidl.cpp",
+    ],
+
+    header_libs: ["generated_kernel_headers"],
+
+    shared_libs: [
+        "liblog",
+        "libutils",
+        "libbase",
+        "libbinder_ndk",
+        "android.hardware.memtrack-V1-ndk",
+    ],
+
+    cflags: [
+        "-DMEMTRACK_AIDL"
+    ],
+
+    name: "android.hardware.memtrack-service-nvidia",
+    init_rc: ["android.hardware.memtrack-service-nvidia.rc"],
+    vintf_fragments: ["android.hardware.memtrack-service-tegra.xml"],
     relative_install_path: "hw",
     vendor: true,
 
