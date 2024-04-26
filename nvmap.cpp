@@ -1,18 +1,6 @@
-#include "Memtrack.h"
-
-#include <fstream>
-
 #include <linux/nvmap.h>
 
 #define NVMAP_DEBUGFS_DIR "/sys/kernel/debug/nvmap/handles_by_pid/"
-
-namespace android {
-namespace hardware {
-namespace memtrack {
-namespace V1_0 {
-namespace implementation {
-
-using ::android::hardware::memtrack::V1_0::MemtrackFlag;
 
 bool Memtrack::valid_type(MemtrackType requested_type, uint32_t entry_type) {
     switch (requested_type) {
@@ -34,9 +22,10 @@ bool Memtrack::valid_type(MemtrackType requested_type, uint32_t entry_type) {
     return false;
 }
 
-void Memtrack::getNvmapMemory(int32_t pid, MemtrackType type, hidl_vec<MemtrackRecord> records) {
+std::vector<MemtrackRecord> Memtrack::getNvmapMemory(int pid, MemtrackType type) {
     struct nvmap_debugfs_handles_header hdr;
     struct nvmap_debugfs_handles_entry  entry;
+    std::vector<MemtrackRecord> records;
 
     records.resize(8);
     records[0].flags = MemtrackFlag::SMAPS_ACCOUNTED   | MemtrackFlag::PRIVATE    | MemtrackFlag::DEDICATED | MemtrackFlag::NONSECURE;
@@ -70,10 +59,6 @@ void Memtrack::getNvmapMemory(int32_t pid, MemtrackType type, hidl_vec<MemtrackR
 	    }
         }
     }
-}
 
-}  // namespace implementation
-}  // namespace V1_0
-}  // namespace memtrack
-}  // namespace hardware
-}  // namespace android
+    return records;
+}

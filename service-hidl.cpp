@@ -22,7 +22,7 @@
 #include <android/log.h>
 #include <hidl/HidlTransportSupport.h>
 #include <hardware/memtrack.h>
-#include "Memtrack.h"
+#include "Memtrack-hidl.h"
 
 using android::sp;
 using android::status_t;

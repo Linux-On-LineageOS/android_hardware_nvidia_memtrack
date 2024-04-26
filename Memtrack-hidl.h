@@ -22,6 +22,7 @@
 #include <hidl/MQDescriptor.h>
 #include <hidl/Status.h>
 #include <hardware/memtrack.h>
+#include <vector>
 
 namespace android {
 namespace hardware {
@@ -29,12 +30,13 @@ namespace memtrack {
 namespace V1_0 {
 namespace implementation {
 
+using ::android::hardware::memtrack::V1_0::MemtrackFlag;
 using ::android::hardware::memtrack::V1_0::MemtrackType;
 using ::android::hardware::Return;
 using ::android::hardware::Void;
 
 struct Memtrack : public IMemtrack {
-    void getNvmapMemory(int32_t pid, MemtrackType type, hidl_vec<MemtrackRecord> records);
+    std::vector<MemtrackRecord> getNvmapMemory(int32_t pid, MemtrackType type);
     bool valid_type(MemtrackType requested_type, uint32_t entry_type);
 
     // Methods from ::android::hardware::memtrack::V1_0::IMemtrack follow.

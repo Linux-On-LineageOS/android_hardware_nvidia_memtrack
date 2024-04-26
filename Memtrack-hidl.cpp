@@ -21,13 +21,16 @@
 
 #include <android/log.h>
 #include <utils/Log.h>
-#include "Memtrack.h"
+#include "Memtrack-hidl.h"
+#include <fstream>
 
 namespace android {
 namespace hardware {
 namespace memtrack {
 namespace V1_0 {
 namespace implementation {
+
+#include "nvmap.cpp"
 
 Memtrack::Memtrack() {
 }
@@ -40,7 +43,7 @@ Return<void> Memtrack::getMemory(int32_t pid, MemtrackType type,
     switch (type) {
         case MemtrackType::GL:
         case MemtrackType::GRAPHICS:
-            getNvmapMemory(pid, type, records);
+            records = getNvmapMemory(pid, type);
             break;
 
         default:
